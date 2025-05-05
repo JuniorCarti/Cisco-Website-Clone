@@ -196,3 +196,16 @@
         max-width: 700px;
         margin: 0 auto;
       }
+      .solution-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .solution-card {
+        background-color: var(--white);
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
