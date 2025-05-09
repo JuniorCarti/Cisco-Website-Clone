@@ -332,3 +332,83 @@ const firebaseConfig = {
       userDropdown.classList.remove('active');
     }
   });
+  // Service Card Interactions
+document.querySelectorAll('.service-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const serviceTitle = e.target.closest('.service-card').querySelector('.service-title').textContent;
+      
+      if (auth.currentUser) {
+        // Logged in users go to detailed service page
+        window.location.href = `services.html?service=${encodeURIComponent(serviceTitle)}`;
+      } else {
+        // Others see a modal prompting login
+        openModal(loginModal);
+        document.getElementById('login-modal').insertAdjacentHTML('beforeend', 
+          `<div class="service-login-prompt">
+            <p>Please login to view detailed service information about ${serviceTitle}.</p>
+          </div>`
+        );
+      }
+    });
+  });
+  
+  // Contact form handler for services CTA
+  document.querySelector('.services-cta .btn-primary').addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    if (auth.currentUser) {
+      // Redirect to contact form with service prefilled
+      window.location.href = 'contact.html?interest=services';
+    } else {
+      // Show signup modal with service interest noted
+      openModal(signupModal);
+      document.getElementById('signup-modal').insertAdjacentHTML('beforeend',
+        `<input type="hidden" id="service-interest" value="services">`
+      );
+    }
+  });
+  // Resources Tab Functionality
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove active class from all buttons and contents
+    tabBtns.forEach(btn => btn.classList.remove('active'));
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Add active class to clicked button
+    btn.classList.add('active');
+    
+    // Show corresponding content
+    const tabId = btn.getAttribute('data-tab');
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+
+// Resource Download Tracking
+document.querySelectorAll('.resource-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const resourceTitle = this.closest('.resource-card').querySelector('h3').textContent;
+    
+    if (auth.currentUser) {
+      // Log download in Firestore
+      db.collection('resource_downloads').add({
+        userId: auth.currentUser.uid,
+        resource: resourceTitle,
+        downloadedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        window.location.href = this.href; // Proceed with download
+      });
+    } else {
+      openModal(loginModal);
+      document.getElementById('login-modal').insertAdjacentHTML('beforeend', 
+        `<div class="resource-login-prompt">
+          <p>Please login to download "${resourceTitle}"</p>
+        </div>`
+      );
+    }
+  });
+});
