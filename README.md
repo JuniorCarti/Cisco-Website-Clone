@@ -1,4 +1,4 @@
-A
+
 # NetConnect - Cisco-like Networking Website
 A responsive, modern website template inspired by Cisco's design, featuring networking solutions and products.
 
