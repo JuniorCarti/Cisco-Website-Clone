@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character encoding and responsive viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page title -->
     <title>NexusNet | Quantum Networking Solutions</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header with Auth State -->
+    <!-- Header Section -->
     <header id="header">
         <div class="container header-container">
-            <a href="" class="logo">
+            <!-- Logo -->
+            <a href="#" class="logo">
                 NEXUS<i class="fas fa-bolt logo-icon"></i><span>NET</span>
             </a>
-            <nav>
-                <ul>
+            
+            <!-- Main Navigation -->
+            <nav class="main-nav">
+                <ul class="nav-list">
                     <li><a href="#solutions">Solutions</a></li>
                     <li><a href="#products">Products</a></li>
                     <li><a href="#services">Services</a></li>
@@ -31,23 +41,38 @@
                     <li><a href="#resources">Resources</a></li>
                 </ul>
             </nav>
+            
+            <!-- Header Actions (Search, Auth, Mobile Menu Toggle) -->
             <div class="header-actions">
-                <i class="fas fa-search search-icon"></i>
+                <button class="search-btn" aria-label="Search">
+                    <i class="fas fa-search search-icon"></i>
+                </button>
+                
+                <!-- Authentication Buttons -->
                 <div id="auth-buttons">
                     <a href="#" class="cta-button" id="login-btn">Login</a>
                 </div>
-                <i class="fas fa-bars menu-toggle" id="mobile-menu-toggle"></i>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
-    <!-- Mobile Menu -->
+
+    <!-- Mobile Menu (Hidden by default) -->
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-header">
             <a href="#" class="logo">
                 NEXUS<i class="fas fa-bolt logo-icon"></i><span>NET</span>
             </a>
-            <i class="fas fa-times close-mobile-menu" id="close-mobile-menu"></i>
+            <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
+        
+        <!-- Mobile Navigation Links -->
         <ul class="mobile-menu-links">
             <li><a href="#solutions">Solutions</a></li>
             <li><a href="#products">Products</a></li>
@@ -57,542 +82,637 @@
             <li><a href="#" id="mobile-login-btn">Login</a></li>
         </ul>
     </div>
-<!-- Auth Modals -->
-<div class="modal" id="login-modal">
-    <div class="modal-content">
-        <span class="close-modal" id="close-login">&times;</span>
-        <h2 class="modal-title">Login to Your Account</h2>
-        <div class="form-group">
-            <label for="login-email">Email</label>
-            <input type="email" id="login-email" placeholder="Enter your email">
-            <div class="error-message" id="login-email-error"></div>
-        </div>
-        <div class="form-group">
-            <label for="login-password">Password</label>
-            <input type="password" id="login-password" placeholder="Enter your password">
-            <div class="error-message" id="login-password-error"></div>
-        </div>
-        <div class="form-actions">
-            <button class="btn-primary" id="login-submit">Login</button>
-        </div>
-        <div class="form-toggle">
-            Don't have an account? <a href="#" id="show-signup">Sign up</a>
+
+    <!-- Auth Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-login" aria-label="Close login modal">
+                <span>&times;</span>
+            </button>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                    <div class="error-message" id="login-email-error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                    <div class="error-message" id="login-password-error"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="login-submit">Login</button>
+                </div>
+                <div class="form-toggle">
+                    Don't have an account? <a href="#" id="show-signup">Sign up</a>
+                </div>
+            </form>
         </div>
     </div>
-</div>
-<div class="modal" id="signup-modal">
-    <div class="modal-content">
-        <span class="close-modal" id="close-signup">&times;</span>
-        <h2 class="modal-title">Create Your Account</h2>
-        <div class="form-group">
-            <label for="signup-name">Full Name</label>
-            <input type="text" id="signup-name" placeholder="Enter your full name">
-            <div class="error-message" id="signup-name-error"></div>
-        </div>
-        <div class="form-group">
-            <label for="signup-email">Email</label>
-            <input type="email" id="signup-email" placeholder="Enter your email">
-            <div class="error-message" id="signup-email-error"></div>
-        </div>
-        <div class="form-group">
-            <label for="signup-password">Password</label>
-            <input type="password" id="signup-password" placeholder="Create a password">
-            <div class="error-message" id="signup-password-error"></div>
-        </div>
-        <div class="form-group">
-            <label for="signup-confirm">Confirm Password</label>
-            <input type="password" id="signup-confirm" placeholder="Confirm your password">
-            <div class="error-message" id="signup-confirm-error"></div>
-        </div>
-        <div class="form-actions">
-            <button class="btn-primary" id="signup-submit">Create Account</button>
-        </div>
-        <div class="form-toggle">
-            Already have an account? <a href="#" id="show-login">Login</a>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-signup" aria-label="Close signup modal">
+                <span>&times;</span>
+            </button>
+            <h2 class="modal-title">Create Your Account</h2>
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                    <div class="error-message" id="signup-name-error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                    <div class="error-message" id="signup-email-error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password" required>
+                    <div class="error-message" id="signup-password-error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                    <div class="error-message" id="signup-confirm-error"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="signup-submit">Create Account</button>
+                </div>
+                <div class="form-toggle">
+                    Already have an account? <a href="#" id="show-login">Login</a>
+                </div>
+            </form>
         </div>
     </div>
-</div>
- <!-- Hero Section -->
- <section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <span class="hero-subtitle">Next-Gen Networking</span>
-            <h1 class="hero-title">Quantum-Ready Network Infrastructure</h1>
-            <p class="hero-description">
-                Revolutionize your digital infrastructure with our AI-driven, quantum-secure networking solutions designed for the enterprises of tomorrow.
-            </p>
-            <div class="hero-buttons">
-                <a href="#solutions" class="btn-primary">Explore Solutions</a>
-                <a href="https://youtu.be/DRGT5ZgGrEc" class="btn-secondary" id="watch-demo-btn">Watch Demo</a>
-            </div>
-        </div>
-        
-    </div>
-</section>
-<!-- Solutions Section -->
-<section class="solutions" id="solutions">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">Innovative Solutions</span>
-            <h2 class="section-title">Redefining Network Performance</h2>
-            <p class="section-description">
-                Our cutting-edge solutions combine AI, machine learning, and quantum cryptography to deliver unprecedented network performance and security.
-            </p>
-        </div>
-        <div class="solutions-grid">
-            <div class="solution-card">
-                <div class="solution-icon">
-                    <i class="fas fa-atom"></i>
-                </div>
-                <div class="solution-content">
-                    <h3 class="solution-title">Quantum Encryption</h3>
-                    <p class="solution-description">
-                        Unbreakable quantum encryption for your most sensitive data transfers and communications.
-                    </p>
-                    <a href="#" class="solution-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="solution-card">
-                <div class="solution-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <div class="solution-content">
-                    <h3 class="solution-title">AI Network Optimization</h3>
-                    <p class="solution-description">
-                        Self-learning networks that continuously optimize performance and predict issues before they occur.
-                    </p>
-                    <a href="#" class="solution-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="solution-card">
-                <div class="solution-icon">
-                    <i class="fas fa-project-diagram"></i>
-                </div>
-                <div class="solution-content">
-                    <h3 class="solution-title">Edge Networking</h3>
-                    <p class="solution-description">
-                        Ultra-low latency edge computing solutions for real-time applications and IoT ecosystems.
-                    </p>
-                    <a href="#" class="solution-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Stats Section -->
-<section class="stats">
-    <div class="container stats-container">
-        <div class="stat-item">
-            <div class="stat-number">99.999%</div>
-            <div class="stat-label">Network Uptime</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">40ms</div>
-            <div class="stat-label">Global Latency</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">256-bit</div>
-            <div class="stat-label">Quantum Encryption</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">10,000+</div>
-            <div class="stat-label">Enterprise Clients</div>
-        </div>
-    </div>
-</section>
- <!-- Products Section -->
- <section class="products" id="products">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">Our Products</span>
-            <h2 class="section-title">Network Infrastructure Redefined</h2>
-            <p class="section-description">
-                Discover our award-winning hardware and software solutions that are transforming enterprise networking.
-            </p>
-        </div>
-        <div class="products-grid">
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="product-badge">New</span>
-                    <img src="https://media.istockphoto.com/id/1464561980/photo/futuristic-central-processor-unit-powerful-quantum-cpu-on-pcb-motherboard-with-data-transfers.jpg?s=612x612&w=0&k=20&c=yV7dDXLo_FleX9VZJhW_CgjO6Q4cIJsC5MxuNuIs5WQ=" alt="Quantum Router">
-                </div>
-                <div class="product-content">
-                    <div class="product-category">Hardware</div>
-                    <h3 class="product-title">QuantumCore Router</h3>
-                    <p class="product-description">
-                        The world's first quantum-secure router with AI-driven traffic optimization and threat detection.
-                    </p>
-                    <div class="product-footer">
-                        <div class="product-price">$12,499</div>
-                        <a href="#" class="product-button">View Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGFydGlmaWNpYWwlMjBpbnRlbGxpZ2VuY2V8ZW58MHx8MHx8fDA%3D" alt="AI Switch">
-                </div>
-                <div class="product-content">
-                    <div class="product-category">Hardware</div>
-                    <h3 class="product-title">NeuralSwitch X9000</h3>
-                    <p class="product-description">
-                        Cognitive switching fabric that learns and adapts to your network patterns in real-time.
-                    </p>
-                    <div class="product-footer">
-                        <div class="product-price">$8,999</div>
-                        <a href="#" class="product-button">View Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWYVAcATLl2F8RfvWOzKrADbXluGTYWEb13A&s" alt="Security Suite">
-                </div>
-                <div class="product-content">
-                    <div class="product-category">Software</div>
-                    <h3 class="product-title">ZeroTrust Security Suite</h3>
-                    <p class="product-description">
-                        Comprehensive network security platform with continuous authentication and microsegmentation.
-                    </p>
-                    <div class="product-footer">
-                        <div class="product-price">$4,999/yr</div>
-                        <a href="#" class="product-button">View Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="product-badge">Best Seller</span>
-                    <img src="https://hyperbolic.xyz/_next/image?url=%2Fimages%2Fwireframe.png&w=750&q=100" alt="Network OS">
-                </div>
-                <div class="product-content">
-                    <div class="product-category">Software</div>
-                    <h3 class="product-title">NexusOS</h3>
-                    <p class="product-description">
-                        The most advanced network operating system with built-in AI and machine learning capabilities.
-                    </p>
-                    <div class="product-footer">
-                        <div class="product-price">$3,499/yr</div>
-                        <a href="#" class="product-button">View Details</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Services Section -->
-<section class="services" id="services">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-subtitle">Our Expertise</span>
-        <h2 class="section-title">Comprehensive Network Services</h2>
-        <p class="section-description">
-          End-to-end professional services to design, implement, and optimize your network infrastructure.
-        </p>
-      </div>
-      <div class="services-grid">
-        <!-- Service 1 -->
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="fas fa-network-wired"></i>
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Network Design & Architecture</h3>
-            <p class="service-description">
-              Custom network solutions tailored to your business requirements with future-proof architecture.
-            </p>
-            <ul class="service-features">
-                <li><i class="fas fa-check-circle"></i> Scalable topology design</li>
-                <li><i class="fas fa-check-circle"></i> Security-first approach</li>
-                <li><i class="fas fa-check-circle"></i> Performance optimization</li>
-              </ul>
-              <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
-         <!-- Service 2 -->
-         <div class="service-card">
-            <div class="service-icon">
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="service-content">
-                <h3 class="service-title">Security Implementation</h3>
-                <p class="service-description">
-                  Comprehensive security services to protect your network from evolving threats.
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-subtitle">Next-Gen Networking</span>
+                <h1 class="hero-title">Quantum-Ready Network Infrastructure</h1>
+                <p class="hero-description">
+                    Revolutionize your digital infrastructure with our AI-driven, quantum-secure networking solutions designed for the enterprises of tomorrow.
                 </p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> Firewall configuration</li>
-                    <li><i class="fas fa-check-circle"></i> Intrusion prevention</li>
-                    <li><i class="fas fa-check-circle"></i> Vulnerability assessment</li>
-                  </ul>
-                  <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                <div class="hero-buttons">
+                    <a href="#solutions" class="btn-primary">Explore Solutions</a>
+                    <a href="https://youtu.be/-sB12gk9ESA" target="_blank" class="btn-secondary" id="watch-demo-btn">Watch Our Video</a>
                 </div>
-              </div>
-         <!-- Service 3 -->
-         <div class="service-card">
-            <div class="service-icon">
-              <i class="fas fa-cloud"></i>
             </div>
-            <div class="service-content">
-                <h3 class="service-title">Cloud Integration</h3>
-                <p class="service-description">
-                  Seamless hybrid and multi-cloud networking solutions for modern enterprises.
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solutions">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Innovative Solutions</span>
+                <h2 class="section-title">Redefining Network Performance</h2>
+                <p class="section-description">
+                    Our cutting-edge solutions combine AI, machine learning, and quantum cryptography to deliver unprecedented network performance and security.
                 </p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> Cloud migration</li>
-                    <li><i class="fas fa-check-circle"></i> SD-WAN implementation</li>
-                    <li><i class="fas fa-check-circle"></i> Multi-cloud connectivity</li>
-                  </ul>
-                  <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-              </div>
-               <!-- Service 4 -->
-        <div class="service-card">
-            <div class="service-icon">
-              <i class="fas fa-headset"></i>
             </div>
-            <div class="service-content">
-                <h3 class="service-title">Managed Services</h3>
-                <p class="service-description">
-                  24/7 monitoring, maintenance, and support for your network infrastructure.
+            
+            <!-- Solutions Grid -->
+            <div class="solutions-grid">
+                <!-- Solution Card 1 -->
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="solution-content">
+                        <h3 class="solution-title">Quantum Encryption</h3>
+                        <p class="solution-description">
+                            Unbreakable quantum encryption for your most sensitive data transfers and communications.
+                        </p>
+                        <a href="#" class="solution-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Solution Card 2 -->
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="solution-content">
+                        <h3 class="solution-title">AI Network Optimization</h3>
+                        <p class="solution-description">
+                            Self-learning networks that continuously optimize performance and predict issues before they occur.
+                        </p>
+                        <a href="#" class="solution-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Solution Card 3 -->
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="solution-content">
+                        <h3 class="solution-title">Edge Networking</h3>
+                        <p class="solution-description">
+                            Ultra-low latency edge computing solutions for real-time applications and IoT ecosystems.
+                        </p>
+                        <a href="#" class="solution-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container stats-container">
+            <!-- Stat 1 -->
+            <div class="stat-item">
+                <div class="stat-number">99.999%</div>
+                <div class="stat-label">Network Uptime</div>
+            </div>
+            
+            <!-- Stat 2 -->
+            <div class="stat-item">
+                <div class="stat-number">40ms</div>
+                <div class="stat-label">Global Latency</div>
+            </div>
+            
+            <!-- Stat 3 -->
+            <div class="stat-item">
+                <div class="stat-number">256-bit</div>
+                <div class="stat-label">Quantum Encryption</div>
+            </div>
+            
+            <!-- Stat 4 -->
+            <div class="stat-item">
+                <div class="stat-number">10,000+</div>
+                <div class="stat-label">Enterprise Clients</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Our Products</span>
+                <h2 class="section-title">Network Infrastructure Redefined</h2>
+                <p class="section-description">
+                    Discover our award-winning hardware and software solutions that are transforming enterprise networking.
                 </p>
-                <ul class="service-features">
-                    <li><i class="fas fa-check-circle"></i> Proactive monitoring</li>
-                    <li><i class="fas fa-check-circle"></i> SLA-backed support</li>
-                    <li><i class="fas fa-check-circle"></i> Performance reporting</li>
-                  </ul>
-                  <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-              </div>
             </div>
+            
+            <!-- Products Grid -->
+            <div class="products-grid">
+                <!-- Product Card 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">New</span>
+                        <img src="https://media.istockphoto.com/id/1464561980/photo/futuristic-central-processor-unit-powerful-quantum-cpu-on-pcb-motherboard-with-data-transfers.jpg?s=612x612&w=0&k=20&c=yV7dDXLo_FleX9VZJhW_CgjO6Q4cIJsC5MxuNuIs5WQ=" alt="Quantum Router" loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Hardware</div>
+                        <h3 class="product-title">QuantumCore Router</h3>
+                        <p class="product-description">
+                            The world's first quantum-secure router with AI-driven traffic optimization and threat detection.
+                        </p>
+                        <div class="product-footer">
+                            <div class="product-price">$12,499</div>
+                            <a href="#" class="product-button">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGFydGlmaWNpYWwlMjBpbnRlbGxpZ2VuY2V8ZW58MHx8MHx8fDA%3D" alt="AI Switch" loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Hardware</div>
+                        <h3 class="product-title">NeuralSwitch X9000</h3>
+                        <p class="product-description">
+                            Cognitive switching fabric that learns and adapts to your network patterns in real-time.
+                        </p>
+                        <div class="product-footer">
+                            <div class="product-price">$8,999</div>
+                            <a href="#" class="product-button">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWYVAcATLl2F8RfvWOzKrADbXluGTYWEb13A&s" alt="Security Suite" loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Software</div>
+                        <h3 class="product-title">ZeroTrust Security Suite</h3>
+                        <p class="product-description">
+                            Comprehensive network security platform with continuous authentication and microsegmentation.
+                        </p>
+                        <div class="product-footer">
+                            <div class="product-price">$4,999/yr</div>
+                            <a href="#" class="product-button">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">Best Seller</span>
+                        <img src="https://hyperbolic.xyz/_next/image?url=%2Fimages%2Fwireframe.png&w=750&q=100" alt="Network OS" loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Software</div>
+                        <h3 class="product-title">NexusOS</h3>
+                        <p class="product-description">
+                            The most advanced network operating system with built-in AI and machine learning capabilities.
+                        </p>
+                        <div class="product-footer">
+                            <div class="product-price">$3,499/yr</div>
+                            <a href="#" class="product-button">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Our Expertise</span>
+                <h2 class="section-title">Comprehensive Network Services</h2>
+                <p class="section-description">
+                    End-to-end professional services to design, implement, and optimize your network infrastructure.
+                </p>
+            </div>
+            
+            <!-- Services Grid -->
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Network Design & Architecture</h3>
+                        <p class="service-description">
+                            Custom network solutions tailored to your business requirements with future-proof architecture.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Scalable topology design</li>
+                            <li><i class="fas fa-check-circle"></i> Security-first approach</li>
+                            <li><i class="fas fa-check-circle"></i> Performance optimization</li>
+                        </ul>
+                        <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Security Implementation</h3>
+                        <p class="service-description">
+                            Comprehensive security services to protect your network from evolving threats.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Firewall configuration</li>
+                            <li><i class="fas fa-check-circle"></i> Intrusion prevention</li>
+                            <li><i class="fas fa-check-circle"></i> Vulnerability assessment</li>
+                        </ul>
+                        <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Cloud Integration</h3>
+                        <p class="service-description">
+                            Seamless hybrid and multi-cloud networking solutions for modern enterprises.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Cloud migration</li>
+                            <li><i class="fas fa-check-circle"></i> SD-WAN implementation</li>
+                            <li><i class="fas fa-check-circle"></i> Multi-cloud connectivity</li>
+                        </ul>
+                        <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Managed Services</h3>
+                        <p class="service-description">
+                            24/7 monitoring, maintenance, and support for your network infrastructure.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Proactive monitoring</li>
+                            <li><i class="fas fa-check-circle"></i> SLA-backed support</li>
+                            <li><i class="fas fa-check-circle"></i> Performance reporting</li>
+                        </ul>
+                        <a href="#" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Services CTA -->
             <div class="services-cta">
                 <p>Need a custom solution? Our experts can help design the perfect network for your business.</p>
                 <a href="#contact" class="btn-primary">Consult Our Team</a>
-              </div>
-            </div>
-          </section>        
-  <!-- Industries Section -->
-  <section class="industries" id="industries">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-subtitle">Industry Solutions</span>
-        <h2 class="section-title">Tailored for Your Sector</h2>
-        <p class="section-description">
-          Specialized networking solutions designed to meet the unique challenges of your industry.
-        </p>
-      </div>
-      <div class="industries-grid">
-        <!-- Healthcare -->
-        <div class="industry-card">
-          <div class="industry-icon">
-            <i class="fas fa-hospital"></i>
-          </div>
-          <div class="industry-content">
-            <h3>Healthcare</h3>
-            <p>HIPAA-compliant networks for hospitals and clinics with medical IoT integration.</p>
-            <div class="industry-badges">
-              <span>HIPAA</span>
-              <span>IoT</span>
-              <span>Low Latency</span>
             </div>
         </div>
-    </div>
-     <!-- Finance -->
-     <div class="industry-card">
-        <div class="industry-icon">
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <div class="industry-content">
-            <h3>Finance</h3>
-            <p>High-frequency trading networks with military-grade encryption and ultra-low latency.</p>
-            <div class="industry-badges">
-              <span>PCI DSS</span>
-              <span>Ultra-Low Latency</span>
-              <span>256-bit Encryption</span>
-            </div>
-          </div>
-        </div>
-          <!-- Education -->
-          <div class="industry-card">
-            <div class="industry-icon">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="industry-content">
-                <h3>Education</h3>
-                <p>Scalable campus networks with content filtering and high-density WiFi solutions.</p>
-                <div class="industry-badges">
-                  <span>CIPA</span>
-                  <span>High-Density</span>
-                  <span>E-Rate</span>
-                </div>
-              </div>
-            </div>
-             <!-- Manufacturing -->
-        <div class="industry-card">
-            <div class="industry-icon">
-              <i class="fas fa-industry"></i>
-            </div>
-            <div class="industry-content">
-                <h3>Manufacturing</h3>
-                <p>Industrial IoT networks with real-time monitoring and predictive maintenance.</p>
-                <div class="industry-badges">
-                  <span>IIoT</span>
-                  <span>5G</span>
-                  <span>Edge Computing</span>
-                </div>
-              </div>
-            </div>
-              <!-- Government -->
-        <div class="industry-card">
-            <div class="industry-icon">
-              <i class="fas fa-landmark"></i>
-            </div>
-            <div class="industry-content">
-                <h3>Government</h3>
-                <p>Secure, air-gapped networks meeting FedRAMP and FISMA compliance standards.</p>
-                <div class="industry-badges">
-                  <span>FedRAMP</span>
-                  <span>FISMA</span>
-                  <span>Top Secret</span>
-                </div>
-              </div>
-            </div>
-              <!-- Retail -->
-        <div class="industry-card">
-            <div class="industry-icon">
-              <i class="fas fa-shopping-bag"></i>
-            </div>
-            <div class="industry-content">
-                <h3>Retail</h3>
-                <p>Omnichannel networks with seamless POS integration and customer analytics.</p>
-                <div class="industry-badges">
-                  <span>PCI</span>
-                  <span>Omnichannel</span>
-                  <span>Analytics</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    </section>
 
-       <!-- Resources Section -->
-<section class="resources" id="resources">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-subtitle">Knowledge Center</span>
-        <h2 class="section-title">Resources & Insights</h2>
-        <p class="section-description">
-          Access whitepapers, case studies, and technical guides to optimize your network.
-        </p>
-      </div>
-      <div class="resources-tabs">
-        <div class="tab-buttons">
-          <button class="tab-btn active" data-tab="whitepapers">Whitepapers</button>
-          <button class="tab-btn" data-tab="casestudies">Case Studies</button>
-          <button class="tab-btn" data-tab="webinars">Webinars</button>
-          <button class="tab-btn" data-tab="apidocs">API Docs</button>
-        </div>
-        <div class="tab-content active" id="whitepapers">
-            <div class="resource-grid">
-              <!-- Resource 1 -->
-              <div class="resource-card">
-                <div class="resource-badge">PDF</div>
-                <div class="resource-content">
-                  <h3>Quantum Networking Architecture</h3>
-                  <p>48-page technical guide to implementing quantum-resistant networks.</p>
-                  <div class="resource-meta">
-                    <span><i class="far fa-file-pdf"></i> 4.2 MB</span>
-                    <span><i class="far fa-calendar-alt"></i> May 2023</span>
-                  </div>
-                  <a href="#" class="resource-link">Download <i class="fas fa-download"></i></a>
-                </div>
-              </div>
-               <!-- Resource 2 -->
-            <div class="resource-card">
-                <div class="resource-badge">PDF</div>
-                <div class="resource-content">
-                  <h3>AI-Driven Network Optimization</h3>
-                  <p>How machine learning reduces operational costs by 37% on average.</p>
-                  <div class="resource-meta">
-                    <span><i class="far fa-file-pdf"></i> 2.8 MB</span>
-                    <span><i class="far fa-calendar-alt"></i> March 2023</span>
-                  </div>
-                  <a href="#" class="resource-link">Download <i class="fas fa-download"></i></a>
-                </div>
-              </div>
+    <!-- Industries Section -->
+    <section class="industries" id="industries">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Industry Solutions</span>
+                <h2 class="section-title">Tailored for Your Sector</h2>
+                <p class="section-description">
+                    Specialized networking solutions designed to meet the unique challenges of your industry.
+                </p>
             </div>
-          </div>
-          <div class="tab-content" id="casestudies">
-            <div class="resource-grid">
-              <!-- Case Study 1 -->
-              <div class="resource-card">
-                <div class="resource-badge">Case Study</div>
-                <div class="resource-content">
-                  <h3>Fortune 500 Healthcare Provider</h3>
-                  <p>How we reduced network downtime by 99.7% for 240 hospitals.</p>
-                  <div class="resource-meta">
-                    <span><i class="fas fa-building"></i> Healthcare</span>
-                    <span><i class="fas fa-chart-bar"></i> 73% ROI</span>
-                  </div>
-                  <a href="#" class="resource-link">Read Story <i class="fas fa-arrow-right"></i></a>
-                </div>
-              </div>
-               <!-- Case Study 2 -->
-            <div class="resource-card">
-                <div class="resource-badge">Case Study</div>
-                <div class="resource-content">
-                  <h3>Global Financial Institution</h3>
-                  <p>Implementing quantum encryption across 84 international branches.</p>
-                  <div class="resource-meta">
-                    <span><i class="fas fa-building"></i> Finance</span>
-                    <span><i class="fas fa-shield-alt"></i> Zero Breaches</span>
-                  </div>
-                  <a href="#" class="resource-link">Read Story <i class="fas fa-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-content" id="webinars">
-            <h2>Upcoming Webinars</h2>
-            <ul>
-              <li>
-                <h3>Introduction to Cloud Computing</h3>
-                <p>Date: May 20, 2025</p>
-                <p>Speaker: Jonathan Kim, Cloud Architect</p>
-                <p>Learn the basics of cloud infrastructure and deployment strategies.</p>
-                <p>Venue: Daima Towers Eldoret RM54 3rd Floor</p>
-              </li>
-              <li>
-                <h3>Advanced DevSecOps Techniques</h3>
-                <p>Date: May 25, 2025</p>
-                <p>Speaker: Ridge Junior, DevSecOps Engineer</p>
-                <p>Dive into automated security practices within CI/CD pipelines.</p>
-                <p>Venue: Daima Towers Eldoret RM54 3rd Floor</p>
-              </li>
-            </ul>
-          </div>
-          
-          <div class="tab-content" id="apidocs">
             
-          </div>
+            <!-- Industries Grid -->
+            <div class="industries-grid">
+                <!-- Industry Card 1 - Healthcare -->
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div class="industry-content">
+                        <h3>Healthcare</h3>
+                        <p>HIPAA-compliant networks for hospitals and clinics with medical IoT integration.</p>
+                        <div class="industry-badges">
+                            <span>HIPAA</span>
+                            <span>IoT</span>
+                            <span>Low Latency</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industry Card 2 - Finance -->
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="industry-content">
+                        <h3>Finance</h3>
+                        <p>High-frequency trading networks with military-grade encryption and ultra-low latency.</p>
+                        <div class="industry-badges">
+                            <span>PCI DSS</span>
+                            <span>Ultra-Low Latency</span>
+                            <span>256-bit Encryption</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industry Card 3 - Education -->
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="industry-content">
+                        <h3>Education</h3>
+                        <p>Scalable campus networks with content filtering and high-density WiFi solutions.</p>
+                        <div class="industry-badges">
+                            <span>CIPA</span>
+                            <span>High-Density</span>
+                            <span>E-Rate</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industry Card 4 - Manufacturing -->
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <div class="industry-content">
+                        <h3>Manufacturing</h3>
+                        <p>Industrial IoT networks with real-time monitoring and predictive maintenance.</p>
+                        <div class="industry-badges">
+                            <span>IIoT</span>
+                            <span>5G</span>
+                            <span>Edge Computing</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industry Card 5 - Government -->
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="industry-content">
+                        <h3>Government</h3>
+                        <p>Secure, air-gapped networks meeting FedRAMP and FISMA compliance standards.</p>
+                        <div class="industry-badges">
+                            <span>FedRAMP</span>
+                            <span>FISMA</span>
+                            <span>Top Secret</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industry Card 6 - Retail -->
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="industry-content">
+                        <h3>Retail</h3>
+                        <p>Omnichannel networks with seamless POS integration and customer analytics.</p>
+                        <div class="industry-badges">
+                            <span>PCI</span>
+                            <span>Omnichannel</span>
+                            <span>Analytics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="resources-cta">
-            <p>Looking for something specific? Our solution architects can prepare custom resources.</p>
-            <a href="#contact" class="btn-secondary">Request Resources</a>
-          </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources" id="resources">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Knowledge Center</span>
+                <h2 class="section-title">Resources & Insights</h2>
+                <p class="section-description">
+                    Access whitepapers, case studies, and technical guides to optimize your network.
+                </p>
+            </div>
+            
+            <!-- Resources Tabs -->
+            <div class="resources-tabs">
+                <!-- Tab Buttons -->
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="whitepapers">Whitepapers</button>
+                    <button class="tab-btn" data-tab="casestudies">Case Studies</button>
+                    <button class="tab-btn" data-tab="webinars">Webinars</button>
+                    <button class="tab-btn" data-tab="apidocs">API Docs</button>
+                </div>
+                
+                <!-- Tab Contents -->
+                <div class="tab-content active" id="whitepapers">
+                    <div class="resource-grid">
+                        <!-- Resource 1 -->
+                        <div class="resource-card">
+                            <div class="resource-badge">PDF</div>
+                            <div class="resource-content">
+                                <h3>Quantum Networking Architecture</h3>
+                                <p>48-page technical guide to implementing quantum-resistant networks.</p>
+                                <div class="resource-meta">
+                                    <span><i class="far fa-file-pdf"></i> 4.2 MB</span>
+                                    <span><i class="far fa-calendar-alt"></i> May 2023</span>
+                                </div>
+                                <a href="#" class="resource-link">Download <i class="fas fa-download"></i></a>
+                            </div>
+                        </div>
+                        
+                        <!-- Resource 2 -->
+                        <div class="resource-card">
+                            <div class="resource-badge">PDF</div>
+                            <div class="resource-content">
+                                <h3>AI-Driven Network Optimization</h3>
+                                <p>How machine learning reduces operational costs by 37% on average.</p>
+                                <div class="resource-meta">
+                                    <span><i class="far fa-file-pdf"></i> 2.8 MB</span>
+                                    <span><i class="far fa-calendar-alt"></i> March 2023</span>
+                                </div>
+                                <a href="#" class="resource-link">Download <i class="fas fa-download"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="casestudies">
+                    <div class="resource-grid">
+                        <!-- Case Study 1 -->
+                        <div class="resource-card">
+                            <div class="resource-badge">Case Study</div>
+                            <div class="resource-content">
+                                <h3>Fortune 500 Healthcare Provider</h3>
+                                <p>How we reduced network downtime by 99.7% for 240 hospitals.</p>
+                                <div class="resource-meta">
+                                    <span><i class="fas fa-building"></i> Healthcare</span>
+                                    <span><i class="fas fa-chart-bar"></i> 73% ROI</span>
+                                </div>
+                                <a href="#" class="resource-link">Read Story <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <!-- Case Study 2 -->
+                        <div class="resource-card">
+                            <div class="resource-badge">Case Study</div>
+                            <div class="resource-content">
+                                <h3>Global Financial Institution</h3>
+                                <p>Implementing quantum encryption across 84 international branches.</p>
+                                <div class="resource-meta">
+                                    <span><i class="fas fa-building"></i> Finance</span>
+                                    <span><i class="fas fa-shield-alt"></i> Zero Breaches</span>
+                                </div>
+                                <a href="#" class="resource-link">Read Story <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="webinars">
+                    <h3 class="webinar-title">Upcoming Webinars</h3>
+                    <div class="webinar-list">
+                        <!-- Webinar 1 -->
+                        <div class="webinar-item">
+                            <h4>Introduction to Cloud Computing</h4>
+                            <div class="webinar-meta">
+                                <span><i class="far fa-calendar"></i> May 20, 2025</span>
+                                <span><i class="fas fa-user"></i> Jonathan Kim, Cloud Architect</span>
+                            </div>
+                            <p>Learn the basics of cloud infrastructure and deployment strategies.</p>
+                            <div class="webinar-location">
+                                <i class="fas fa-map-marker-alt"></i> Daima Towers Eldoret RM54 3rd Floor
+                            </div>
+                        </div>
+                        
+                        <!-- Webinar 2 -->
+                        <div class="webinar-item">
+                            <h4>Advanced DevSecOps Techniques</h4>
+                            <div class="webinar-meta">
+                                <span><i class="far fa-calendar"></i> May 25, 2025</span>
+                                <span><i class="fas fa-user"></i> Ridge Junior, DevSecOps Engineer</span>
+                            </div>
+                            <p>Dive into automated security practices within CI/CD pipelines.</p>
+                            <div class="webinar-location">
+                                <i class="fas fa-map-marker-alt"></i> Daima Towers Eldoret RM54 3rd Floor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="apidocs">
+                    <div class="api-docs-content">
+                        <h3>API Documentation</h3>
+                        <p>Explore our comprehensive API documentation to integrate NexusNet solutions with your systems.</p>
+                        <div class="api-links">
+                            <a href="#" class="api-link">
+                                <i class="fas fa-book"></i> REST API Reference
+                            </a>
+                            <a href="#" class="api-link">
+                                <i class="fas fa-code"></i> SDK Documentation
+                            </a>
+                            <a href="#" class="api-link">
+                                <i class="fas fa-plug"></i> Webhooks Guide
+                            </a>
+                        </div>
+                        <div class="api-cta">
+                            <p>Need help with integration? Our developer support team is ready to assist.</p>
+                            <a href="#" class="btn-primary">Contact Developer Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resources CTA -->
+            <div class="resources-cta">
+                <p>Looking for something specific? Our solution architects can prepare custom resources.</p>
+                <a href="#contact" class="btn-secondary">Request Resources</a>
+            </div>
         </div>
-      </section>
-        
-<!-- Partners Section -->
-<section class="partners">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">Our Partners</span>
-            <h2 class="section-title">Trusted by Global Leaders</h2>
-            <p class="section-description">
-                We collaborate with the world's most innovative companies to deliver exceptional networking solutions.
-            </p>
-        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Our Partners</span>
+                <h2 class="section-title">Trusted by Global Leaders</h2>
+                <p class="section-description">
+                    We collaborate with the world's most innovative companies to deliver exceptional networking solutions.
+                </p>
+            </div>    
+            <!-- Partners Grid -->
         <div class="partners-grid">
             <div class="partner-logo">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAAAjVBMVEWBvAYFpvD/ugjzUyXz8/P/tAB4uADzRAD79///+fPz/v/y9/8AoPDz9vf29PjJ3q3z5ODznYrn7d3zpZS51ouLy/H51Yzf7PKAx/H07t/zu7DzPQD60oCz03/43a+v1vIAm/Ct0HP70Hfz0cra5sbzKgDzlX9osgDzxbvS4rft8Oa23PL24rfL4/P25sqT88jpAAABZ0lEQVR4nO3cSU4CURSGUVQ6gYdiiwoCaolis//lOYAHiWXiQK9WKucbV+q+s4G/0axRjf9+wG+2w1wHdZ/W/x8+HAVVwqTj4iak4rG3vtBdLNshLU+GJUznIKTOKGOm7UZMMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMNXGFJ2Qii1mEbPU8uVUy+g0pqfNiE73+Sym6eozppl6QaV8oRtVttR1q6kGwVQ1mKq2wxxGlQ/0o0olzOX4PKaXjab/OrkIabJKJcx8ENJ8nDF3raCuypjBXkiDLWbS2g8JBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGpuKYOk21pFlQb/nA+21QmfCXW03p+09+WK2Gpz4AV27eW58s/fkAAAAASUVORK5CYII=" alt="Microsoft">
