@@ -1,17 +1,4 @@
-// Firebase Configuration - Replace with your actual config
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
-  
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+
   
   // DOM Elements
   const loginBtn = document.getElementById('login-btn');
@@ -31,7 +18,7 @@ const firebaseConfig = {
   const newsletterSubmit = document.getElementById('newsletter-submit');
   const ctaGetStarted = document.getElementById('cta-get-started');
   const ctaContactSales = document.getElementById('cta-contact-sales');
-  const watchDemoBtn = document.getElementById('watch-demo-btn');
+ 
   
   // Modal Functions
   function openModal(modal) {
@@ -101,20 +88,7 @@ const firebaseConfig = {
         </div>
       `;
   
-      // Add event listeners for new elements
-      const userDropdown = document.getElementById('user-dropdown');
-      const userAvatar = document.getElementById('user-avatar');
-      const logoutBtn = document.getElementById('logout-btn');
-  
-      userAvatar.addEventListener('click', () => {
-        userDropdown.classList.toggle('active');
-      });
-  
-      logoutBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        auth.signOut();
-      });
-  
+      
       // Close dropdown when clicking outside
       document.addEventListener('click', (e) => {
         if (!userDropdown.contains(e.target)) {
@@ -310,10 +284,7 @@ const firebaseConfig = {
     alert('Contact sales form would open here');
   });
   
-  watchDemoBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    alert('Demo video would play here');
-  });
+
   
   // Header scroll effect
   window.addEventListener('scroll', function() {
