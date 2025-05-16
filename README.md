@@ -33,11 +33,11 @@ To view or modify the project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/JuniorCarti/Cisco-Website-Clone.git
+   git clone https://github.com/JuniorCarti/PLP-Wk8-Web-Assignment.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd Cisco-Website-Clone
+   cd PLP-Wk8-Web-Assignment
    ```
 3. Open the `index.html` file in your browser to view the project.
 
